@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ 
+    isLogin: true, 
+    showPassword: false, 
+    showConfirmPassword: false,
+    formData: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        firstName: '',
+        lastName: '',
+        phone: '',
+        agreeTerms: false
+    },
+    errors: {},
+    isLoading: false
+}" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title x-text="isLogin ? 'Login - Surf Travel' : 'Register - Surf Travel'"></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#0891B2',
+                        secondary: '#0E7490',
+                        dark: '#0C4A6E',
+                        light: '#F0FDFA',
+                        accent: '#F59E0B',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        html, body {
+            font-family: 'Poppins', sans-serif;
+            height: 100%;
+        }
+        
+        .auth-bg {
+            background-image: linear-gradient(135deg, rgba(8, 145, 178, 0.9) 0%, rgba(14, 116, 144, 0.9) 50%, rgba(12, 74, 110, 0.9) 100%), 
+                              url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .input-group {
+            position: relative;
+        }
+        
+        .input-group input:focus + label,
+        .input-group input:not(:placeholder-shown) + label {
+            transform: translateY(-1.5rem) scale(0.85);
+            color: #0891B2;
+        }
+        
+        .input-group label {
+            position: absolute;
+            left: 1rem;
+            top: 0.75rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            color: #6B7280;
+        }
+        
+        .input-group input {
+            padding-top: 1.5rem;
+            padding-bottom: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #0891B2 0%, #0E7490 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #0E7490 0%, #0C4A6E 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(8, 145, 178, 0.3);
+        }
+        
+        .social-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+        
+        .wave-animation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="%23ffffff" fill-opacity="0.1"/></svg>') repeat-x;
+            background-size: 1200px 120px;
+            animation: wave 10s linear infinite;
+        }
+        
+        @keyframes wave {
+            0% { background-position-x: 0; }
+            100% { background-position-x: 1200px; }
+        }
+        
+        .slide-enter {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+        
+        .slide-enter-active {
+            transform: translateX(0);
+            opacity: 1;
+            transition: all 0.5s ease;
+        }
+        
+        .slide-leave {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .slide-leave-active {
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+        
+        .error-shake {
+            animation: shake 0.5s ease-in-out;
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .success-pulse {
+            animation: pulse 0.6s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .floating-elements::before,
+        .floating-elements::after {
+            content: '';
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .floating-elements::before {
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .floating-elements::after {
+            bottom: 10%;
+            right: 10%;
+            animation-delay: 3s;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+    </style>
+</head>
+<body class="h-full auth-bg">
+    <div class="floating-elements"></div>
+    <div class="wave-animation"></div>
+    
+    <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Logo and Header -->
+            <div class="text-center">
+                <div class="flex justify-center items-center mb-6">
+                    <img src="https://img.icons8.com/color/96/000000/surfing.png" alt="Surf Travel Logo" class="h-16 w-16">
+                    <span class="ml-3 text-3xl font-bold text-white">Surf<span class="text-accent">Travel</span></span>
+                </div>
+                <h2 class="text-3xl font-bold text-white mb-2" x-text="isLogin ? 'Welcome Back!' : 'Join Our Community'"></h2>
+                <p class="text-white/80" x-text="isLogin ? 'Sign in to your account to continue your surf journey' : 'Create your account and start your surf adventure'"></p>
+            </div>
+
+            <!-- Auth Form Card -->
+            <div class="glass-effect rounded-2xl shadow-2xl p-8 space-y-6">
+                <!-- Toggle Buttons -->
+                <div class="flex bg-gray-100 rounded-lg p-1">
+                    <button 
+                        @click="isLogin = true; errors = {}" 
+                        :class="isLogin ? 'bg-white text-primary shadow-sm' : 'text-gray-600'"
+                        class="flex-1 py-2 px-4 rounded-md font-medium transition-all duration-300">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Login
+                    </button>
+                    <button 
+                        @click="isLogin = false; errors = {}" 
+                        :class="!isLogin ? 'bg-white text-primary shadow-sm' : 'text-gray-600'"
+                        class="flex-1 py-2 px-4 rounded-md font-medium transition-all duration-300">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Register
+                    </button>
+                </div>
+
+                <!-- Login Form -->
+                <form x-show="isLogin" @submit.prevent="handleLogin" class="space-y-6">
+                    <!-- Email Input -->
+                    <div class="input-group">
+                        <input 
+                            type="email" 
+                            x-model="formData.email"
+                            placeholder=" "
+                            :class="errors.email ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                            required>
+                        <label class="text-gray-500">
+                            <i class="fas fa-envelope mr-2"></i>Email Address
+                        </label>
+                        <p x-show="errors.email" x-text="errors.email" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <input 
+                            :type="showPassword ? 'text' : 'password'"
+                            x-model="formData.password"
+                            placeholder=" "
+                            :class="errors.password ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                            class="w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                            required>
+                        <label class="text-gray-500">
+                            <i class="fas fa-lock mr-2"></i>Password
+                        </label>
+                        <button 
+                            type="button" 
+                            @click="showPassword = !showPassword"
+                            class="absolute right-3 top-3 text-gray-400 hover:text-primary transition-colors">
+                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                        </button>
+                        <p x-show="errors.password" x-text="errors.password" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Remember Me & Forgot Password -->
+                    <div class="flex items-center justify-between">
+                        <label class="flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-primary focus:ring-primary">
+                            <span class="ml-2 text-sm text-gray-600">Remember me</span>
+                        </label>
+                        <a href="#" class="text-sm text-primary hover:text-secondary transition-colors">Forgot password?</a>
+                    </div>
+
+                    <!-- Login Button -->
+                    <button 
+                        type="submit" 
+                        :disabled="isLoading"
+                        :class="isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'"
+                        class="w-full btn-primary text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300">
+                        <span x-show="!isLoading" class="flex items-center justify-center">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Sign In
+                        </span>
+                        <span x-show="isLoading" class="flex items-center justify-center">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>
+                            Signing In...
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form x-show="!isLogin" @submit.prevent="handleRegister" class="space-y-6">
+                    <!-- Name Fields -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                x-model="formData.firstName"
+                                placeholder=" "
+                                :class="errors.firstName ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                                required>
+                            <label class="text-gray-500">
+                                <i class="fas fa-user mr-2"></i>First Name
+                            </label>
+                            <p x-show="errors.firstName" x-text="errors.firstName" class="text-red-500 text-sm mt-1"></p>
+                        </div>
+                        <div class="input-group">
+                            <input 
+                                type="text" 
+                                x-model="formData.lastName"
+                                placeholder=" "
+                                :class="errors.lastName ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                                class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                                required>
+                            <label class="text-gray-500">
+                                <i class="fas fa-user mr-2"></i>Last Name
+                            </label>
+                            <p x-show="errors.lastName" x-text="errors.lastName" class="text-red-500 text-sm mt-1"></p>
+                        </div>
+                    </div>
+
+                    <!-- Email Input -->
+                    <div class="input-group">
+                        <input 
+                            type="email" 
+                            x-model="formData.email"
+                            placeholder=" "
+                            :class="errors.email ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                            required>
+                        <label class="text-gray-500">
+                            <i class="fas fa-envelope mr-2"></i>Email Address
+                        </label>
+                        <p x-show="errors.email" x-text="errors.email" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Phone Input -->
+                    <div class="input-group">
+                        <input 
+                            type="tel" 
+                            x-model="formData.phone"
+                            placeholder=" "
+                            :class="errors.phone ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                            class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                            required>
+                        <label class="text-gray-500">
+                            <i class="fas fa-phone mr-2"></i>Phone Number
+                        </label>
+                        <p x-show="errors.phone" x-text="errors.phone" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="input-group">
+                        <input 
+                            :type="showPassword ? 'text' : 'password'"
+                            x-model="formData.password"
+                            placeholder=" "
+                            :class="errors.password ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                            class="w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                            required>
+                        <label class="text-gray-500">
+                            <i class="fas fa-lock mr-2"></i>Password
+                        </label>
+                        <button 
+                            type="button" 
+                            @click="showPassword = !showPassword"
+                            class="absolute right-3 top-3 text-gray-400 hover:text-primary transition-colors">
+                            <i :class="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                        </button>
+                        <p x-show="errors.password" x-text="errors.password" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Confirm Password Input -->
+                    <div class="input-group">
+                        <input 
+                            :type="showConfirmPassword ? 'text' : 'password'"
+                            x-model="formData.confirmPassword"
+                            placeholder=" "
+                            :class="errors.confirmPassword ? 'border-red-500 error-shake' : 'border-gray-300 focus:border-primary'"
+                            class="w-full px-4 py-3 pr-12 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                            required>
+                        <label class="text-gray-500">
+                            <i class="fas fa-lock mr-2"></i>Confirm Password
+                        </label>
+                        <button 
+                            type="button" 
+                            @click="showConfirmPassword = !showConfirmPassword"
+                            class="absolute right-3 top-3 text-gray-400 hover:text-primary transition-colors">
+                            <i :class="showConfirmPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                        </button>
+                        <p x-show="errors.confirmPassword" x-text="errors.confirmPassword" class="text-red-500 text-sm mt-1"></p>
+                    </div>
+
+                    <!-- Terms and Conditions -->
+                    <div class="flex items-start">
+                        <input 
+                            type="checkbox" 
+                            x-model="formData.agreeTerms"
+                            :class="errors.agreeTerms ? 'border-red-500' : 'border-gray-300'"
+                            class="mt-1 rounded border-gray-300 text-primary focus:ring-primary">
+                        <label class="ml-2 text-sm text-gray-600">
+                            I agree to the <a href="#" class="text-primary hover:text-secondary">Terms of Service</a> and <a href="#" class="text-primary hover:text-secondary">Privacy Policy</a>
+                        </label>
+                    </div>
+                    <p x-show="errors.agreeTerms" x-text="errors.agreeTerms" class="text-red-500 text-sm"></p>
+
+                    <!-- Register Button -->
+                    <button 
+                        type="submit" 
+                        :disabled="isLoading"
+                        :class="isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:shadow-lg'"
+                        class="w-full btn-primary text-white py-3 px-4 rounded-lg font-semibold transition-all duration-300">
+                        <span x-show="!isLoading" class="flex items-center justify-center">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Create Account
+                        </span>
+                        <span x-show="isLoading" class="flex items-center justify-center">
+                            <i class="fas fa-spinner fa-spin mr-2"></i>
+                            Creating Account...
+                        </span>
+                    </button>
+                </form>
+
+                <!-- Divider -->
+                <div class="relative">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-300"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-white text-gray-500">Or continue with</span>
+                    </div>
+                </div>
+
+                <!-- Social Login Buttons -->
+                <div class="grid grid-cols-3 gap-3">
+                    <button class="social-btn flex justify-center items-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
+                        <i class="fab fa-google text-red-500 text-xl"></i>
+                    </button>
+                    <button class="social-btn flex justify-center items-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
+                        <i class="fab fa-facebook-f text-blue-600 text-xl"></i>
+                    </button>
+                    <button class="social-btn flex justify-center items-center px-4 py-2 border border-gray-300 rounded-lg bg-white hover:bg-gray-50">
+                        <i class="fab fa-apple text-black text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Back to Home -->
+                <div class="text-center">
+                    <a href="index.html" class="inline-flex items-center text-primary hover:text-secondary transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i>
+                        Back to Home
+                    </a>
+                </div>
+            </div>
+
+            <!-- Success/Error Messages -->
+            <div x-show="Object.keys(errors).length === 0 && isLoading === false" 
+                 x-transition
+                 class="text-center text-white/80 text-sm">
+                <p x-show="isLogin">Don't have an account? <button @click="isLogin = false" class="text-accent hover:text-white transition-colors font-medium">Sign up here</button></p>
+                <p x-show="!isLogin">Already have an account? <button @click="isLogin = true" class="text-accent hover:text-white transition-colors font-medium">Sign in here</button></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and handling
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('authForm', () => ({
+                validateEmail(email) {
+                    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    return re.test(email);
+                },
+                
+                validatePassword(password) {
+                    return password.length >= 8;
+                },
+                
+                validatePhone(phone) {
+                    const re = /^[\+]?[1-9][\d]{0,15}$/;
+                    return re.test(phone.replace(/\s/g, ''));
+                },
+                
+                handleLogin() {
+                    this.errors = {};
+                    this.isLoading = true;
+                    
+                    // Validate email
+                    if (!this.validateEmail(this.formData.email)) {
+                        this.errors.email = 'Please enter a valid email address';
+                    }
+                    
+                    // Validate password
+                    if (!this.validatePassword(this.formData.password)) {
+                        this.errors.password = 'Password must be at least 8 characters';
+                    }
+                    
+                    // If no errors, simulate login
+                    if (Object.keys(this.errors).length === 0) {
+                        setTimeout(() => {
+                            this.isLoading = false;
+                            // Simulate successful login
+                            alert('Login successful! Redirecting to dashboard...');
+                            // window.location.href = 'dashboard.html';
+                        }, 2000);
+                    } else {
+                        this.isLoading = false;
+                    }
+                },
+                
+                handleRegister() {
+                    this.errors = {};
+                    this.isLoading = true;
+                    
+                    // Validate first name
+                    if (this.formData.firstName.length < 2) {
+                        this.errors.firstName = 'First name must be at least 2 characters';
+                    }
+                    
+                    // Validate last name
+                    if (this.formData.lastName.length < 2) {
+                        this.errors.lastName = 'Last name must be at least 2 characters';
+                    }
+                    
+                    // Validate email
+                    if (!this.validateEmail(this.formData.email)) {
+                        this.errors.email = 'Please enter a valid email address';
+                    }
+                    
+                    // Validate phone
+                    if (!this.validatePhone(this.formData.phone)) {
+                        this.errors.phone = 'Please enter a valid phone number';
+                    }
+                    
+                    // Validate password
+                    if (!this.validatePassword(this.formData.password)) {
+                        this.errors.password = 'Password must be at least 8 characters';
+                    }
+                    
+                    // Validate confirm password
+                    if (this.formData.password !== this.formData.confirmPassword) {
+                        this.errors.confirmPassword = 'Passwords do not match';
+                    }
+                    
+                    // Validate terms agreement
+                    if (!this.formData.agreeTerms) {
+                        this.errors.agreeTerms = 'You must agree to the terms and conditions';
+                    }
+                    
+                    // If no errors, simulate registration
+                    if (Object.keys(this.errors).length === 0) {
+                        setTimeout(() => {
+                            this.isLoading = false;
+                            // Simulate successful registration
+                            alert('Registration successful! Please check your email to verify your account.');
+                            this.isLogin = true;
+                            // Reset form
+                            this.formData = {
+                                email: '',
+                                password: '',
+                                confirmPassword: '',
+                                firstName: '',
+                                lastName: '',
+                                phone: '',
+                                agreeTerms: false
+                            };
+                        }, 2000);
+                    } else {
+                        this.isLoading = false;
+                    }
+                }
+            }));
+        });
+        
+        // Add some interactive effects
+        document.addEventListener('DOMContentLoaded', () => {
+            // Add floating animation to form elements
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                    this.parentElement.style.transition = 'transform 0.3s ease';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Add success animation to buttons
+            const buttons = document.querySelectorAll('button[type="submit"]');
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.add('success-pulse');
+                    setTimeout(() => {
+                        this.classList.remove('success-pulse');
+                    }, 600);
+                });
+            });
+            
+            // Social login button effects
+            const socialBtns = document.querySelectorAll('.social-btn');
+            socialBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const icon = this.querySelector('i');
+                    const platform = icon.classList.contains('fa-google') ? 'Google' : 
+                                   icon.classList.contains('fa-facebook-f') ? 'Facebook' : 'Apple';
+                    alert(`${platform} login would be implemented here!`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
