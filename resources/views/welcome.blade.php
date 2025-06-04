@@ -110,7 +110,7 @@
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="text-white fade-in-up">
+                <div class="text-white fade-in-up mt-14">
                     <h1 class="text-5xl lg:text-6xl font-bold leading-tight mb-6">
                         Smart Inventory
                         <span class="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">

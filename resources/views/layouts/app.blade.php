@@ -11,6 +11,12 @@
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+    {{-- DataTables CSS CDN --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
+    {{-- SweetAlert2 CSS CDN --}}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
     <style>
         .dropdown-content {
             display: none;
@@ -25,6 +31,17 @@
         body {
             height: 100%;
             margin: 0;
+        }
+
+        /* Custom Scrollbar Styling (Webkit Browsers like Chrome, Safari) */
+        .sidebar-scroll-hidden::-webkit-scrollbar {
+            display: none; /* Hide scrollbar for Chrome, Safari, and Opera */
+        }
+
+        /* Custom Scrollbar Styling (Firefox) */
+        .sidebar-scroll-hidden {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
         }
 
         body {
@@ -59,10 +76,14 @@
             flex-grow: 1;
         }
 
-        footer {
-            flex-shrink: 0;
+        /* Adjusted active link styling for better icon alignment */
+        .sidebar-link.active .sidebar-icon {
+            transform: none; /* Reset any unintended transformations */
+            position: relative; /* Ensure icon is positioned correctly */
+            z-index: 1; /* Keep icon above any border */
         }
     </style>
+    @stack('css')
 </head>
 
 <body class="h-full bg-gray-100" x-data="inventoryDashboard()">
@@ -71,9 +92,9 @@
     @include('components.BE.sidebar')
 
     <div class="main-content-wrapper">
-        @yield('content')
-
-        @include('components.BE.footer')
+        <div class="content-area">
+            @yield('content')
+        </div>
     </div>
 
     <div x-show="sidebarOpen" @click="sidebarOpen = false" class="fixed inset-0 z-30 bg-black bg-opacity-50 lg:hidden"
@@ -90,6 +111,27 @@
             }
         }
     </script>
+    {{-- DataTables JS CDN --}}
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    {{-- SweetAlert2 JS CDN --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    {{-- Script untuk menampilkan pesan sukses dari session --}}
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Berhasil!',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 2000 // Durasi tampil 2 detik
+            });
+        </script>
+    @endif
+    
+    @stack('js')
 </body>
 
 </html>
