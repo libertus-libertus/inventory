@@ -80,7 +80,7 @@
                         Supplier
                     </a>
 
-                    <a href="#" {{-- Tambahkan route yang sesuai di sini, contoh: {{ route('customers.index') }} --}}
+                    <a href="{{ route('customers.index') }}" {{-- Tambahkan route yang sesuai di sini, contoh: {{ route('customers.index') }} --}}
                         class="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors sidebar-link">
                         <i class="fas fa-users mr-3 sidebar-icon"></i>
                         Pelanggan
