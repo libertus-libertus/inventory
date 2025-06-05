@@ -19,7 +19,7 @@
                 <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline-block">
                     @csrf
                     @method('DELETE')
-                    <button type="button" onclick="confirmDelete({{ $category->id }}, '{{ $category->category_name }}')" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
+                    <button type="button" onclick="confirmDelete({{ $category->id }}, '{{ $category->name }}')" class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-red-700 active:bg-red-900 focus:outline-none focus:border-red-900 focus:ring ring-red-300 disabled:opacity-25 transition ease-in-out duration-150">
                         <i class="fas fa-trash-alt mr-2"></i> Hapus
                     </button>
                 </form>
@@ -29,7 +29,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
                 <p class="text-sm font-medium text-gray-500">Nama Kategori:</p>
-                <p class="mt-1 text-lg font-semibold text-gray-900">{{ $category->category_name }}</p> {{-- Menggunakan $category->name --}}
+                <p class="mt-1 text-lg font-semibold text-gray-900">{{ $category->name }}</p> {{-- Menggunakan $category->name --}}
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Deskripsi:</p>

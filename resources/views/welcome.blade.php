@@ -7,6 +7,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    {{-- offline --}}
+    <link rel="stylesheet" href="{{ asset('frontend/css/tailwind.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/js/alpine.min.js') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/fontawesome/css/all.min.css') }}">
     <style>
         .gradient-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);

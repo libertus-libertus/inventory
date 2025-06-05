@@ -59,7 +59,7 @@
                                     {{ $loop->iteration }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-600">
-                                    {{ $category->category_name }} {{-- Menggunakan $category->name --}}
+                                    {{ $category->name }} {{-- Menggunakan $category->name --}}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
                                     {{ $category->description ?: '-' }}
@@ -75,7 +75,7 @@
                                     <form id="delete-form-{{ $category->id }}" action="{{ route('categories.destroy', $category->id) }}" method="POST" class="inline-block">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="button" onclick="confirmDelete({{ $category->id }}, '{{ $category->category_name }}')" class="text-red-600 hover:text-red-900" title="Hapus">
+                                        <button type="button" onclick="confirmDelete({{ $category->id }}, '{{ $category->name }}')" class="text-red-600 hover:text-red-900" title="Hapus">
                                             <i class="fas fa-trash-alt"></i>
                                         </button>
                                     </form>

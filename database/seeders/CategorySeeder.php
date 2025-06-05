@@ -14,22 +14,22 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::create([
-            'category_name' => 'Smartphone',
+            'name' => 'Smartphone',
             'description' => 'Smartphone terbaru'
         ]);
 
         Category::create([
-            'category_name' => 'Laptop',
+            'name' => 'Laptop',
             'description' => 'Laptop terbaru'
         ]);
 
         Category::create([
-            'category_name' => 'iPad',
+            'name' => 'iPad',
             'description' => 'iPad terbaru'
         ]);
 
         Category::create([
-            'category_name' => 'Kipas',
+            'name' => 'Kipas',
             'description' => 'Kipas terbaru'
         ]);
     }

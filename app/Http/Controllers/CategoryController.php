@@ -30,12 +30,12 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'category_name' => 'required|string|max:255|unique:categories,category_name', // Pastikan 'name' sesuai dengan kolom di DB
+            'name' => 'required|string|max:255|unique:categories,name', // Pastikan 'name' sesuai dengan kolom di DB
             'description' => 'nullable|string',
         ]);
 
         Category::create([
-            'category_name' => $request->category_name, // Pastikan menyimpan ke kolom 'name' di DB
+            'name' => $request->name, // Pastikan menyimpan ke kolom 'name' di DB
             'description' => $request->description,
         ]);
 
@@ -64,12 +64,12 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $request->validate([
-            'category_name' => 'required|string|max:255|unique:categories,category_name,' . $category->id, // 'name' sesuai dengan kolom di DB
+            'name' => 'required|string|max:255|unique:categories,name,' . $category->id, // 'name' sesuai dengan kolom di DB
             'description' => 'nullable|string',
         ]);
 
         $category->update([
-            'category_name' => $request->category_name, // Pastikan menyimpan ke kolom 'name' di DB
+            'name' => $request->name, // Pastikan menyimpan ke kolom 'name' di DB
             'description' => $request->description,
         ]);
 
