@@ -16,11 +16,11 @@ return new class extends Migration
             $table->string('name');
             $table->string('sku')->unique();
             $table->text('description');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('supplier_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('unit');
             $table->integer('quantity');
             $table->string('status');
-            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null');
             $table->timestamps();
         });
     }

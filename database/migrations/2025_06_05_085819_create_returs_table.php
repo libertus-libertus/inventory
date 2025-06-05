@@ -16,8 +16,8 @@ return new class extends Migration
             $table->enum('return_type', ['ke_supplier', 'dari_customer']);
             $table->string('reference_code')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->text('notes')->nullable();
             $table->timestamp('return_date');
             $table->timestamps();

@@ -16,8 +16,8 @@ return new class extends Migration
             $table->enum('transaction_type', ['masuk', 'keluar']);
             $table->string('reference_code')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('set null');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->text('notes')->nullable();
             $table->timestamp('transaction_date');
             $table->timestamps();
