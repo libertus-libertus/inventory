@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Customer extends Model
 {
@@ -16,22 +15,7 @@ class Customer extends Model
         'address',
     ];
 
-    /**
-     * Get all of the transactions for the Customer
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function transactions(): HasMany
-    {
-        return $this->hasMany(Transaction::class);
-    }
-
-    /**
-     * Get all of the returs for the Customer
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function returs(): HasMany {
-        return $this->hasMany(Retur::class);
+    public function stockOuts() {
+        return $this->hasMany(StockOut::class);
     }
 }

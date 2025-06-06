@@ -15,21 +15,48 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         User::create([
-            'name' => 'Administrator',
-            'email' => 'admin@gmail.com',
+            'name' => 'Libertus',
+            'email' => 'libertus@gmail.com',
             'password' => Hash::make('123'),
             'role' => 'admin',
             'phone' => '081298172910',
-            'address' => 'Banjir Kanal'
+            'address' => 'Padang Utara'
         ]);
 
         User::create([
-            'name' => 'Kasir',
-            'email' => 'kasir@gmail.com',
+            'name' => 'Lenawati Saleleusik',
+            'email' => 'lenawati@gmail.com',
             'password' => Hash::make('123'),
             'role' => 'kasir',
-            'phone' => '082198172912',
-            'address' => 'Banjir Kanal No. 14C'
+            'phone' => '082398170082',
+            'address' => 'Padang Kota'
+        ]);
+
+        User::create([
+            'name' => 'Kasir 1',
+            'email' => 'kasir1@gmail.com',
+            'password' => Hash::make('123'),
+            'role' => 'kasir',
+            'phone' => '081398172987',
+            'address' => 'Padang Timur'
+        ]);
+
+        User::create([
+            'name' => 'Kasir 2',
+            'email' => 'kasir2@gmail.com',
+            'password' => Hash::make('123'),
+            'role' => 'kasir',
+            'phone' => '082398172123',
+            'address' => 'Padang Barat'
+        ]);
+
+        User::create([
+            'name' => 'Kasir 3',
+            'email' => 'kasir3@gmail.com',
+            'password' => Hash::make('123'),
+            'role' => 'kasir',
+            'phone' => '085298172465',
+            'address' => 'Ulak Karang'
         ]);
     }
 }

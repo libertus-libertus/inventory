@@ -5,30 +5,29 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transaction extends Model
+class StockIn extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'transaction_type',
-        'reference_code',
+        'supplier_id', 
+        'product_id', 
+        'reference_code', 
         'user_id',
-        'supplier_id',
-        'customer_id',
-        'notes',
-        'transaction_date'
+        'quantity', 
+        'notes', 
+        'stock_in_date'
     ];
 
     public function user() {
         return $this->belongsTo(User::class);
     }
+
+    public function product() {
+        return $this->belongsTo(Product::class);
+    }
+
     public function supplier() {
         return $this->belongsTo(Supplier::class);
-    }
-    public function customer() {
-        return $this->belongsTo(Customer::class);
-    }
-    public function transactionDetails() {
-        return $this->hasMany(TransactionDetail::class);
     }
 }

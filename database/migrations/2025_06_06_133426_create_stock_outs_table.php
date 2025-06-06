@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('stock_outs', function (Blueprint $table) {
             $table->id();
-            $table->enum('transaction_type', ['masuk', 'keluar']);
             $table->string('reference_code')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->text('notes')->nullable();
-            $table->timestamp('transaction_date');
+            $table->foreignId('product_id')->constrained()->onDelete('cascade');
+            $table->foreignId('customer_id')->nullable()->constrained()->onDelete('cascade');
+            $table->integer('quantity');
+            $table->text('reason')->nullable();
+            $table->timestamp('stock_out_date');
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('stock_outs');
     }
 };

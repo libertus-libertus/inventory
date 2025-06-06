@@ -15,22 +15,42 @@ class CategorySeeder extends Seeder
     {
         Category::create([
             'name' => 'Smartphone',
-            'description' => 'Smartphone terbaru'
+            'description' => 'Smartphone'
+        ]);
+
+        Category::create([
+            'name' => 'iPhone',
+            'description' => 'iPhone'
+        ]);
+
+        Category::create([
+            'name' => 'MacBook',
+            'description' => 'MacBook'
+        ]);
+
+        Category::create([
+            'name' => 'Camera',
+            'description' => 'Camera'
+        ]);
+
+        Category::create([
+            'name' => 'Drone',
+            'description' => 'Drone'
         ]);
 
         Category::create([
             'name' => 'Laptop',
-            'description' => 'Laptop terbaru'
+            'description' => 'Laptop'
         ]);
 
         Category::create([
             'name' => 'iPad',
-            'description' => 'iPad terbaru'
+            'description' => 'iPad'
         ]);
 
         Category::create([
-            'name' => 'Kipas',
-            'description' => 'Kipas terbaru'
+            'name' => 'Printer',
+            'description' => 'Printer'
         ]);
     }
 }

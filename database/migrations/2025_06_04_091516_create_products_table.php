@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('sku')->unique();
-            $table->text('description');
-            $table->foreignId('category_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('supplier_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
+            $table->text('description')->nullable();
+            $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('unit');
             $table->integer('quantity');
-            $table->string('status');
+            $table->enum('status', ['tersedia', 'tidak tersedia']);
             $table->timestamps();
         });
     }

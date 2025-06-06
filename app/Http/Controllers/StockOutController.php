@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Retur;
+use App\Models\StockOut;
 use Illuminate\Http\Request;
 
-class ReturController extends Controller
+class StockOutController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class ReturController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Retur $retur)
+    public function show(StockOut $stockOut)
     {
         //
     }
@@ -42,7 +42,7 @@ class ReturController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Retur $retur)
+    public function edit(StockOut $stockOut)
     {
         //
     }
@@ -50,7 +50,7 @@ class ReturController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Retur $retur)
+    public function update(Request $request, StockOut $stockOut)
     {
         //
     }
@@ -58,7 +58,7 @@ class ReturController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Retur $retur)
+    public function destroy(StockOut $stockOut)
     {
         //
     }

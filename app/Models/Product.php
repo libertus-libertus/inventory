@@ -4,8 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -22,40 +20,19 @@ class Product extends Model
         'status'
     ];
 
-    /**
-     * Get the category that owns the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function category(): BelongsTo
-    {
+    public function category() {
         return $this->belongsTo(Category::class);
     }
 
-    /**
-     * Get the supplier that owns the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function supplier(): BelongsTo {
+    public function supplier() {
         return $this->belongsTo(Supplier::class);
     }
 
-    /**
-     * Get the transactionDetails that owns the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function transactionDetails(): HasMany {
-        return $this->hasMany(TransactionDetail::class);
+    public function stockIns() {
+        return $this->hasMany(StockIn::class);
     }
-    
-    /**
-     * Get the returDetails that owns the Product
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function returDetails(): HasMany {
-        return $this->hasMany(ReturDetail::class);
+
+    public function stockOuts() {
+        return $this->hasMany(StockOut::class);
     }
 }
