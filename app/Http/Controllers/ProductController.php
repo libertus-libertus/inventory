@@ -12,6 +12,15 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function stocks()
+    {
+        $products = Product::with(['category', 'supplier'])->latest()->get();
+        return view('backend.stocks.index', compact('products'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function index()
     {
         $products = Product::with(['category', 'supplier'])->latest()->get();

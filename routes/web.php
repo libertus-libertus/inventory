@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -23,7 +24,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('/categories', CategoryController::class);
     Route::resource('/customers', CustomerController::class);
     Route::resource('/suppliers', SupplierController::class);
+
+    # Kelola stok produk
     Route::resource('/products', ProductController::class);
+    Route::get('/stocks', [ProductController::class, 'stocks'])->name('stocks');
+
+    Route::resource('/users', UserController::class);
 });
 
 require __DIR__.'/auth.php';
