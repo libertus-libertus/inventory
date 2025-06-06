@@ -40,11 +40,11 @@
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Dibuat Pada:</p>
-                <p class="mt-1 text-base text-gray-800">{{ $supplier->created_at->format('d M Y, H:i') }}</p>
+                <p class="mt-1 text-base text-gray-800">{{ $supplier->created_at->format('d M Y') }}</p>
             </div>
             <div>
                 <p class="text-sm font-medium text-gray-500">Terakhir Diperbarui:</p>
-                <p class="mt-1 text-base text-gray-800">{{ $supplier->updated_at->format('d M Y, H:i') }}</p>
+                <p class="mt-1 text-base text-gray-800">{{ $supplier->updated_at->format('d M Y') }}</p>
             </div>
         </div>
 

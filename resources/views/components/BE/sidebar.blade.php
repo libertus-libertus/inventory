@@ -62,11 +62,11 @@
                         Barang Keluar
                     </a>
 
-                    <a href="#"
+                    {{-- <a href="#"
                         class="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors sidebar-link">
                         <i class="fas fa-shopping-cart mr-3 sidebar-icon"></i>
                         Pesanan
-                    </a>
+                    </a> --}}
                 </div>
             </div>
 
@@ -92,11 +92,11 @@
                         Manajemen User
                     </a>
 
-                    <a href="#"
+                    {{-- <a href="#"
                         class="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors sidebar-link">
                         <i class="fas fa-cog mr-3 sidebar-icon"></i>
                         Pengaturan Sistem
-                    </a>
+                    </a> --}}
                 </div>
             </div>
         </nav>

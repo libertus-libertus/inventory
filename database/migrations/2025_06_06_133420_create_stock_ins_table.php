@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('reference_code')->unique();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('scascade');
+            $table->foreignId('supplier_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->integer('quantity');
             $table->text('notes')->nullable();
