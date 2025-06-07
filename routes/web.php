@@ -5,6 +5,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StockInController;
+use App\Http\Controllers\StockOutController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -41,6 +42,13 @@ Route::middleware('auth')->group(function () {
 
     // Route::resource('stock_ins', StockInController::class);
     // Route::get('/stock-ins/{id}/invoice', [StockInController::class, 'downloadPDF'])->name('stock_ins.invoice');
+
+    # barang keluar
+    Route::get('/stock-outs', [StockOutController::class, 'index'])->name('stock_outs.index');
+    Route::get('/stock-outs/create', [StockOutController::class, 'create'])->name('stock_outs.create');
+    Route::post('/stock-outs', [StockOutController::class, 'store'])->name('stock_outs.store');
+    Route::get('/stock-outs/{id}', [StockOutController::class, 'show'])->name('stock_outs.show');
+    Route::get('/stock-outs/{id}/invoice', [StockOutController::class, 'downloadPDF'])->name('stock_outs.invoice');
     
 });
 

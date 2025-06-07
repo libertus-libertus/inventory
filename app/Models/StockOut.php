@@ -10,12 +10,13 @@ class StockOut extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 
-        'product_id', 
-        'reference_code', 
-        'quantity', 
-        'reason', 
-        'stock_out_date'
+        'reference_code',
+        'user_id',
+        'product_id',
+        'customer_id',
+        'quantity',
+        'notes',
+        'stock_out_date',
     ];
     
     public function user() {

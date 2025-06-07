@@ -56,7 +56,7 @@
                         Barang Masuk
                     </a>
 
-                    <a href="#"
+                    <a href="{{ route('stock_outs.index') }}"
                         class="flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors sidebar-link">
                         <i class="fas fa-arrow-up mr-3 text-red-600 sidebar-icon"></i>
                         Barang Keluar
