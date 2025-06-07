@@ -6,6 +6,9 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use App\Imports\ProductsImport;
+use Maatwebsite\Excel\Facades\Excel;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ProductController extends Controller
 {
@@ -16,6 +19,24 @@ class ProductController extends Controller
     {
         $products = Product::with(['category', 'supplier'])->latest()->get();
         return view('backend.stocks.index', compact('products'));
+    }
+
+    public function import(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+
+        Excel::import(new ProductsImport, $request->file('file'));
+
+        return redirect()->route('stocks')->with('success', 'Data produk berhasil diimpor.');
+    }
+
+    public function exportPdf()
+    {
+        $products = Product::with('category')->get();
+        $pdf = PDF::loadView('backend.stocks.pdf', compact('products'));
+        return $pdf->download('stok_produk.pdf');
     }
 
     /**

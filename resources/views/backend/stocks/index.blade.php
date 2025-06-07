@@ -17,7 +17,8 @@
                 <p class="text-sm">Silakan tambahkan produk baru untuk mulai mengelola.</p>
             </div>
         @else
-            <div class="overflow-x-auto">
+            {{-- Tabel Data Produk --}}
+            <div class="overflow-x-auto mb-6">
                 <table id="products-table" class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -44,43 +45,44 @@
                 </table>
             </div>
         @endif
+
+        {{-- Tombol Export PDF & Form Import Excel --}}
+        <div class="flex flex-col md:flex-row justify-between items-center gap-4 mt-4">
+            <a href="{{ route('stocks.exportPdf') }}" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded shadow text-sm w-full md:w-auto text-center">
+                Export PDF
+            </a>
+
+            <form action="{{ route('stocks.import') }}" method="POST" enctype="multipart/form-data"
+                  class="flex flex-col sm:flex-row items-center gap-2 w-full md:w-auto">
+                @csrf
+                <input type="file" name="file" required
+                       class="border rounded px-2 py-1 text-sm w-full sm:w-auto">
+                <button type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded shadow text-sm w-full sm:w-auto">
+                    Import Excel
+                </button>
+            </form>
+        </div>
+
     </div>
 @endsection
 
 @push('js')
-<!-- SweetAlert2 CDN -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- DataTables CDN (jika belum ada di layout) -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <!-- DataTables CDN -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-        $('#products-table').DataTable({
-            responsive: true,
-            "language": {
-                "url": "//cdn.datatables.net/plug-ins/1.11.5/i18n/id.json"
-            }
+    <script>
+        $(document).ready(function () {
+            $('#products-table').DataTable({
+                responsive: true,
+                language: {
+                    url: "//cdn.datatables.net/plug-ins/1.11.5/i18n/id.json"
+                }
+            });
         });
-    });
-
-    function confirmDeleteProduct(productId, productName) {
-        Swal.fire({
-            title: 'Yakin ingin hapus produk ini?',
-            html: `Produk <strong>"${productName}"</strong> akan dihapus secara permanen.`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6c757d',
-            confirmButtonText: 'Ya, Hapus!',
-            cancelButtonText: 'Batal',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('delete-form-' + productId).submit();
-            }
-        });
-    }
-</script>
+    </script>
 @endpush

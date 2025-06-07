@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     # Kelola stok produk
     Route::resource('/products', ProductController::class);
     Route::get('/stocks', [ProductController::class, 'stocks'])->name('stocks');
+    Route::post('/stocks/import', [ProductController::class, 'import'])->name('stocks.import');
+    Route::get('/stocks/export-pdf', [ProductController::class, 'exportPdf'])->name('stocks.exportPdf');
 
     Route::resource('/users', UserController::class);
     
@@ -39,9 +41,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/stock-ins', [StockInController::class, 'store'])->name('stock_ins.store');
     Route::get('/stock-ins/{id}', [StockInController::class, 'show'])->name('stock_ins.show');
     Route::get('/stock-ins/{id}/invoice', [StockInController::class, 'downloadPDF'])->name('stock_ins.invoice');
-
-    // Route::resource('stock_ins', StockInController::class);
-    // Route::get('/stock-ins/{id}/invoice', [StockInController::class, 'downloadPDF'])->name('stock_ins.invoice');
 
     # barang keluar
     Route::get('/stock-outs', [StockOutController::class, 'index'])->name('stock_outs.index');
